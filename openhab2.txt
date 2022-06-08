@@ -1,0 +1,72 @@
+Crear un LED en openHAB
+
+UniqueID led
+label LED
+location casa
+Bridge MQTT Broker 
+
+
+seleccionar LED y elegir pestaña de canal
+
+channel identifier canal_led
+label channel_LED
+channel type On/OffSwitch
+
+advanced configuration
+MQTT command topic: CodigoIoT/led
+QoS at most once (0)
+is command activar 
+dar clic en crear
+
+ir a model
+seleccionar escritorio
+y despues clic en create equipment for thing
+ir a thing y seleccionar LED
+dejar todo igual execto en category: Aire Acondicionado
+Semantic class: Fan
+
+Seleccionar el canal: channel_LED
+Type:switch
+category: Aire acondicionado
+semantic class: Point
+Semantic property: Power
+Agregar al modelo 
+
+
+
+crear una regla
+hacer clic en Rules
+hacer clic en el boton +
+unique ID: overheat
+name exceso de temperatura
+description Esta regla se activa cuando se detecta un exceso de temperatura
+Agregar a trigger la seccion when
+seleccionar un evento de item
+seleccionar canal temperatura del modelo (rayito) y dar click en pick
+when-item-was update
+dejar en blanco to state
+dar clic en done
+agregar una accion en la seccion Then
+run script
+seleccionar design with blocky
+seleccionar execute script para editar
+
+
+editor:
+crear variable, templed, seleccionar set_templed_to
+openhab-items and things-> get state item
+seleccionar el item (cuadro azulito) y seleccionar canal de temperatura
+clic en pick
+ir a logic por un if
+pegar ir abajito de set templed to
+convertir if a un if - else
+agregar comparacion de logic
+agregar la variable templed poner mayor que y agregar un numero de math
+ir a openHAB -> items and things-> elegir send command
+configurar cuadro con ON entre las comillas
+configurar item seleccionando canal del led y pick por ultimo
+
+
+mosquitto_pub -h localhost -p 1883 -t CodigoIoT/hume -m 70
+
+mosquitto_sub -h localhost -p 1883 -q 0 -t CodigoIoT/led
