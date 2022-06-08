@@ -66,6 +66,7 @@ ir a openHAB -> items and things-> elegir send command
 configurar cuadro con ON entre las comillas
 configurar item seleccionando canal del led y pick por ultimo
 
+sudo /bin/systemctl start openhab.service
 
 mosquitto_pub -h localhost -p 1883 -t CodigoIoT/hume -m 70
 
